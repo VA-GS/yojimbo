@@ -7,9 +7,24 @@ jobs:
     name: Build & test
 
     strategy:
+      fail-fast: false # Do not stop all jobs when one job fails.
       matrix:
         os: [macos-latest, windows-latest, ubuntu-latest]
         configuration: [release, debug]
+        compiler: [default]
+        include:
+          - os: windows-latest
+            configuration: debug
+            compiler: gcc
+          - os: windows-latest
+            configuration: debug
+            compiler: clang
+          - os: windows-latest
+            configuration: release
+            compiler: gcc
+          - os: windows-latest
+            configuration: release
+            compiler: clang
 
     runs-on: ${{ matrix.os }}
 
@@ -19,7 +34,31 @@ jobs:
         submodules: recursive
     - name: Setup premake
       uses: abel0b/setup-premake@v1
-    
+
+    # Install gcc and premake for MSYS2.
+    - name: Setup (MSYS2 gcc)
+      if: runner.os == 'Windows' && matrix.compiler == 'gcc'
+      uses: msys2/setup-msys2@v2
+      with:
+        msystem: ucrt64
+        release: false # Re-use the existing MSYS2 installation which is part of the official GitHub Actions Runner Images
+        install: |
+          make
+          mingw-w64-ucrt-x86_64-premake
+          mingw-w64-ucrt-x86_64-gcc
+
+    # Install clang and premake for MSYS2.
+    - name: Setup (MSYS2 clang)
+      if: runner.os == 'Windows' && matrix.compiler == 'clang'
+      uses: msys2/setup-msys2@v2
+      with:
+        msystem: clang64
+        release: false # Re-use the existing MSYS2 installation which is part of the official GitHub Actions Runner Images
+        install: |
+          make
+          mingw-w64-clang-x86_64-premake
+          mingw-w64-clang-x86_64-clang
+
     # Install libsodium from apt
     - name: Setup (Linux)
       if: runner.os == 'Linux'
@@ -39,9 +78,24 @@ jobs:
         make clean
         make all config=${{ matrix.configuration }}
 
+    # Build with premake + make on MSYS2
+    - name: Build (gmake)
+      if: runner.os == 'Windows' && (matrix.compiler == 'gcc' || matrix.compiler == 'clang')
+      shell: msys2 {0}
+      run: |
+        premake5 gmake
+        make clean
+        make all config=${{ matrix.configuration }}
+
     # Run the tests with sh syntax
     - name: Test (gmake)
       if: runner.os != 'Windows'
+      run: ./bin/test
+
+    # Run the tests with sh syntax on MSYS2
+    - name: Test (MSYS2)
+      if: runner.os == 'Windows' && (matrix.compiler == 'gcc' || matrix.compiler == 'clang')
+      shell: msys2 {0}
       run: ./bin/test
 
     ## Windows-specific build steps
@@ -64,4 +118,3 @@ jobs:
     - name: Test (vs2019)
       if: runner.os == 'Windows'
       run: "& ./bin/${{ matrix.configuration }}/test.exe"
-      
