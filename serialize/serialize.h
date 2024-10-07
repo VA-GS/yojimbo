@@ -246,6 +246,7 @@
 #pragma warning( push )
 #pragma warning( disable : 4127 )
 #pragma warning( disable : 4244 )
+#include <malloc.h>
 #endif // #ifdef _MSC_VER
 
 // everything the library itself needs. serialize.h is intentionally self contained:
