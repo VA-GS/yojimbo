@@ -475,6 +475,13 @@ void netcode_socket_destroy( struct netcode_socket_t * socket )
 #include <ws2ipdef.h>
 #include <wininet.h>
 #include <iphlpapi.h>
+
+#ifdef __MINGW32__
+typedef UINT32 QOS_FLOWID, *PQOS_FLOWID;
+#ifndef QOS_NON_ADAPTIVE_FLOW
+#define QOS_NON_ADAPTIVE_FLOW 0x00000002
+#endif // #ifndef QOS_NON_ADAPTIVE_FLOW
+#endif // #ifdef __MINGW32__
 #include <qos2.h>
 
 #pragma comment( lib, "Qwave.lib" )
@@ -2562,7 +2569,7 @@ void netcode_default_client_config( struct netcode_client_config_t * config )
     config->override_send_and_receive = 0;
     config->send_packet_override = NULL;
     config->receive_packet_override = NULL;
-};
+}
 
 struct netcode_client_t
 {
@@ -3765,7 +3772,7 @@ void netcode_default_server_config( struct netcode_server_config_t * config )
     config->override_send_and_receive = 0;
     config->send_packet_override = NULL;
     config->receive_packet_override = NULL;
-};
+}
 
 struct netcode_server_t
 {
