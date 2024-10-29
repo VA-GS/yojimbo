@@ -477,7 +477,7 @@ void netcode_socket_destroy( struct netcode_socket_t * socket )
 #include <iphlpapi.h>
 
 #ifdef __MINGW32__
-typedef UINT32 QOS_FLOWID, *PQOS_FLOWID;
+typedef ULONG QOS_FLOWID, *PQOS_FLOWID;
 #ifndef QOS_NON_ADAPTIVE_FLOW
 #define QOS_NON_ADAPTIVE_FLOW 0x00000002
 #endif // #ifndef QOS_NON_ADAPTIVE_FLOW
