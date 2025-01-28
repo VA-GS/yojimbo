@@ -68,9 +68,9 @@
 
 #ifdef YOJIMBO_DEBUG
 
-#define YOJIMBO_DEBUG_MEMORY_LEAKS                  1
-#define YOJIMBO_DEBUG_MESSAGE_LEAKS                 1
-#define YOJIMBO_DEBUG_MESSAGE_BUDGET                1
+//#define YOJIMBO_DEBUG_MEMORY_LEAKS                  1
+//#define YOJIMBO_DEBUG_MESSAGE_LEAKS                 1
+//#define YOJIMBO_DEBUG_MESSAGE_BUDGET                1
 
 #else // #ifdef YOJIMBO_DEBUG
 
