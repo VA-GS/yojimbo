@@ -284,6 +284,18 @@ namespace yojimbo
 
         void * Allocate( size_t size, const char * file, int line );
 
+        // TODO doc
+        /**
+            Reallocates a block of memory using TLSF.
+            IMPORTANT: Don't call this directly. Use the YOJIMBO_NEW or YOJIMBO_ALLOCATE macros instead, because they automatically pass in the source filename and line number for you.
+            @param p Pointer to the block of memory to reallocate.
+            @param size The size of the block of memory to allocate (bytes).
+            @param file The source code filename that is performing the allocation. Used for tracking allocations and reporting on memory leaks.
+            @param line The line number in the source code file that is performing the allocation.
+            @returns A block of memory of the requested size, or NULL if the allocation could not be performed. If NULL is returned, the error level is set to ALLOCATION_ERROR_FAILED_TO_ALLOCATE.
+         */
+        void * Reallocate(void * p, size_t size, const char * file, int line  );
+
         /**
             Free a block of memory using TLSF.
             IMPORTANT: Don't call this directly. Use the YOJIMBO_DELETE or YOJIMBO_FREE macros instead, because they automatically pass in the source filename and line number for you.

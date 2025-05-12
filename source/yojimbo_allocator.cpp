@@ -180,6 +180,22 @@ namespace yojimbo
         return p;
     }
 
+    void * TLSF_Allocator::Reallocate(void * p, size_t size, const char * file, int line  )
+    {
+        p = tlsf_realloc(m_tlsf, p, size);
+
+        if ( !p )
+        {
+            SetErrorLevel( ALLOCATOR_ERROR_OUT_OF_MEMORY );
+            return NULL;
+        }
+
+        TrackFree( p, file, line );
+        TrackAlloc( p, size, file, line );
+
+        return p;
+    }
+
     void TLSF_Allocator::Free( void * p, const char * file, int line ) 
     {
         if ( !p )
