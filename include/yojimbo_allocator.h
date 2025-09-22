@@ -49,7 +49,14 @@ namespace yojimbo
     class Allocator & GetDefaultAllocator();
 
     /// Macro for creating a new object instance with a yojimbo allocator.
-    #define YOJIMBO_NEW( a, T, ... ) ( new ( (a).Allocate( sizeof(T), __FILE__, __LINE__ ) ) T(__VA_ARGS__) )
+    // From https://github.com/mas-bandwidth/yojimbo/pull/172/files
+    #define YOJIMBO_NEW( a, T, ... ) ( [&] {                                                         \
+                                            void* p = (a).Allocate( sizeof(T), __FILE__, __LINE__ ); \
+                                            if (p) {                                                 \
+                                                new(p) T(__VA_ARGS__);                               \
+                                            }                                                        \
+                                            return static_cast<T*>(p);                               \
+                                        }())
 
     /// Macro for deleting an object created with a yojimbo allocator.
     #define YOJIMBO_DELETE( a, T, p ) do { if (p) { (p)->~T(); (a).Free( p, __FILE__, __LINE__ ); p = NULL; } } while (0)
