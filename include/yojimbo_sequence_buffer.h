@@ -56,7 +56,9 @@ namespace yojimbo
             m_sequence = 0;
             m_allocator = &allocator;
             m_entry_sequence = (uint32_t*) YOJIMBO_ALLOCATE( allocator, sizeof( uint32_t ) * size );
+            yojimbo_assert( m_entry_sequence );
             m_entries = (T*) YOJIMBO_ALLOCATE( allocator, sizeof(T) * size );
+            yojimbo_assert( m_entries );
             Reset();
         }
 

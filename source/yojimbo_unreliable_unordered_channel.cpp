@@ -40,7 +40,11 @@ namespace yojimbo
     {
         yojimbo_assert( config.type == CHANNEL_TYPE_UNRELIABLE_UNORDERED );
         m_messageSendQueue = YOJIMBO_NEW( *m_allocator, Queue<Message*>, *m_allocator, m_config.messageSendQueueSize );
+        yojimbo_assert(m_messageSendQueue);
+
         m_messageReceiveQueue = YOJIMBO_NEW( *m_allocator, Queue<Message*>, *m_allocator, m_config.messageReceiveQueueSize );
+        yojimbo_assert(m_messageReceiveQueue);
+
         Reset();
     }
 
@@ -204,6 +208,8 @@ namespace yojimbo
         packetData.channelIndex = GetChannelIndex();
         packetData.message.numMessages = numMessages;
         packetData.message.messages = (Message**) YOJIMBO_ALLOCATE( allocator, sizeof( Message* ) * numMessages );
+        yojimbo_assert( packetData.message.messages );
+
         for ( int i = 0; i < numMessages; ++i )
         {
             packetData.message.messages[i] = messages[i];

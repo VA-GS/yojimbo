@@ -104,6 +104,7 @@ namespace yojimbo
                 Allocator & allocator = messageFactory.GetAllocator();
 
                 messages = (Message**) YOJIMBO_ALLOCATE( allocator, sizeof( Message* ) * numMessages );
+                yojimbo_assert( messages );
 
                 for ( int i = 0; i < numMessages; ++i )
                 {
@@ -189,6 +190,7 @@ namespace yojimbo
                 Allocator & allocator = messageFactory.GetAllocator();
 
                 messages = (Message**) YOJIMBO_ALLOCATE( allocator, sizeof( Message* ) * numMessages );
+                yojimbo_assert( messages );
 
                 for ( int i = 0; i < numMessages; ++i )
                     messages[i] = NULL;

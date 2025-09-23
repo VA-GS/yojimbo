@@ -37,14 +37,24 @@ namespace yojimbo
         yojimbo_assert( ( 65536 % config.messageReceiveQueueSize ) == 0 );
 
         m_sentPackets = YOJIMBO_NEW( *m_allocator, SequenceBuffer<SentPacketEntry>, *m_allocator, m_config.sentPacketBufferSize );
+        yojimbo_assert( m_sentPackets );
+
         m_messageSendQueue = YOJIMBO_NEW( *m_allocator, SequenceBuffer<MessageSendQueueEntry>, *m_allocator, m_config.messageSendQueueSize );
+        yojimbo_assert( m_messageSendQueue );
+
         m_messageReceiveQueue = YOJIMBO_NEW( *m_allocator, SequenceBuffer<MessageReceiveQueueEntry>, *m_allocator, m_config.messageReceiveQueueSize );
+        yojimbo_assert( m_messageReceiveQueue );
+
         m_sentPacketMessageIds = (uint16_t*) YOJIMBO_ALLOCATE( *m_allocator, sizeof( uint16_t ) * m_config.maxMessagesPerPacket * m_config.sentPacketBufferSize );
+        yojimbo_assert( m_sentPacketMessageIds );
 
         if ( !config.disableBlocks )
         {
-            m_sendBlock = YOJIMBO_NEW( *m_allocator, SendBlockData, *m_allocator, m_config.GetMaxFragmentsPerBlock() ); 
+            m_sendBlock = YOJIMBO_NEW( *m_allocator, SendBlockData, *m_allocator, m_config.GetMaxFragmentsPerBlock() );
+            yojimbo_assert( m_sendBlock );
+
             m_receiveBlock = YOJIMBO_NEW( *m_allocator, ReceiveBlockData, *m_allocator, m_config.maxBlockSize, m_config.GetMaxFragmentsPerBlock() );
+            yojimbo_assert( m_receiveBlock );
         }
         else
         {
@@ -335,6 +345,7 @@ namespace yojimbo
             return;
 
         packetData.message.messages = (Message**) YOJIMBO_ALLOCATE( m_messageFactory->GetAllocator(), sizeof( Message* ) * numMessageIds );
+        yojimbo_assert( packetData.message.messages );
 
         for ( int i = 0; i < numMessageIds; ++i )
         {

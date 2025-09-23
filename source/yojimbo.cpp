@@ -56,6 +56,9 @@ extern "C" int netcode_enable_packet_tagging();
 bool InitializeYojimbo()
 {
     g_defaultAllocator = new yojimbo::DefaultAllocator();
+    if (g_defaultAllocator == NULL) {
+        return false;
+    }
 
     if ( netcode_init() != NETCODE_OK )
         return false;

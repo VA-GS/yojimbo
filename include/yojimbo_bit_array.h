@@ -56,6 +56,7 @@ namespace yojimbo
             m_bytes = 8 * ( ( size / 64 ) + ( ( size % 64 ) ? 1 : 0 ) );
             yojimbo_assert( m_bytes > 0 );
             m_data = (uint64_t*) YOJIMBO_ALLOCATE( allocator, m_bytes );
+            yojimbo_assert(m_data);
             Clear();
         }
 

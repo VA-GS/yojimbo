@@ -55,6 +55,7 @@ namespace yojimbo
         yojimbo_assert( !m_globalMemory );
         yojimbo_assert( !m_globalAllocator );
         m_globalMemory = (uint8_t*) YOJIMBO_ALLOCATE( *m_allocator, m_config.serverGlobalMemory );
+        yojimbo_assert( m_globalMemory );
 
         m_globalAllocator = m_adapter->CreateAllocator( *m_allocator, m_globalMemory, m_config.serverGlobalMemory );
         yojimbo_assert( m_globalAllocator );
@@ -62,6 +63,7 @@ namespace yojimbo
         if ( m_config.networkSimulator )
         {
             m_networkSimulator = YOJIMBO_NEW( *m_globalAllocator, NetworkSimulator, *m_globalAllocator, m_config.maxSimulatorPackets, m_time );
+            yojimbo_assert( m_networkSimulator );
         }
 
         for ( int i = 0; i < m_maxClients; ++i )
@@ -103,6 +105,7 @@ namespace yojimbo
             reliable_endpoint_reset( m_clientEndpoint[i] );
         }
         m_packetBuffer = (uint8_t*) YOJIMBO_ALLOCATE( *m_globalAllocator, m_config.maxPacketSize );
+        yojimbo_assert( m_packetBuffer );
     }
 
     void BaseServer::Stop()

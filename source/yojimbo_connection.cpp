@@ -126,7 +126,8 @@ namespace yojimbo
                                                            messageFactory, 
                                                            m_connectionConfig.channel[channelIndex],
                                                            channelIndex, 
-                                                           time ); 
+                                                           time );
+                    yojimbo_assert( m_channel[channelIndex] );
                 }
                 break;
 
@@ -139,6 +140,7 @@ namespace yojimbo
                                                            m_connectionConfig.channel[channelIndex], 
                                                            channelIndex, 
                                                            time ); 
+                    yojimbo_assert( m_channel[channelIndex] );
                 }
                 break;
 

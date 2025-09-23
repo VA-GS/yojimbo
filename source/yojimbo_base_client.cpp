@@ -47,6 +47,7 @@ namespace yojimbo
         m_clientState = CLIENT_STATE_DISCONNECTED;
         m_clientIndex = -1;
         m_packetBuffer = (uint8_t*) YOJIMBO_ALLOCATE( allocator, config.maxPacketSize );
+        yojimbo_assert( m_packetBuffer );
     }
 
     BaseClient::~BaseClient()
@@ -134,8 +135,14 @@ namespace yojimbo
         yojimbo_assert( m_messageFactory == NULL );
 
         m_clientMemory = (uint8_t*) YOJIMBO_ALLOCATE( *m_allocator, m_config.clientMemory );
+        yojimbo_assert( m_clientMemory );
+
         m_clientAllocator = m_adapter->CreateAllocator( *m_allocator, m_clientMemory, m_config.clientMemory );
+        yojimbo_assert( m_clientAllocator );
+
         m_messageFactory = m_adapter->CreateMessageFactory( *m_clientAllocator );
+        yojimbo_assert( m_messageFactory );
+
         m_connection = YOJIMBO_NEW( *m_clientAllocator, Connection, *m_clientAllocator, *m_messageFactory, m_config, m_time );
 
         yojimbo_assert( m_connection );
@@ -143,6 +150,7 @@ namespace yojimbo
         if ( m_config.networkSimulator )
         {
             m_networkSimulator = YOJIMBO_NEW( *m_clientAllocator, NetworkSimulator, *m_clientAllocator, m_config.maxSimulatorPackets, m_time );
+            yojimbo_assert( m_networkSimulator );
         }
 
         reliable_config_t reliable_config;
