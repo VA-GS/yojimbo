@@ -137,7 +137,8 @@ namespace yojimbo
                                                            m_connectionConfig.channel[channelIndex],
                                                            m_connectionConfig.maxPacketSize,
                                                            channelIndex, 
-                                                           time ); 
+                                                           time );
+                    yojimbo_assert( m_channel[channelIndex] );
                 }
                 break;
 
@@ -151,6 +152,7 @@ namespace yojimbo
                                                            m_connectionConfig.maxPacketSize,
                                                            channelIndex, 
                                                            time ); 
+                    yojimbo_assert( m_channel[channelIndex] );
                 }
                 break;
 
