@@ -176,6 +176,7 @@ namespace yojimbo
 
     void BaseServer::SetLatency( float milliseconds )
     {
+        yojimbo_assert( m_networkSimulator );
         if ( m_networkSimulator )
         {
             m_networkSimulator->SetLatency( milliseconds );
@@ -184,6 +185,7 @@ namespace yojimbo
 
     void BaseServer::SetJitter( float milliseconds )
     {
+        yojimbo_assert( m_networkSimulator );
         if ( m_networkSimulator )
         {
             m_networkSimulator->SetJitter( milliseconds );
@@ -192,6 +194,7 @@ namespace yojimbo
 
     void BaseServer::SetPacketLoss( float percent )
     {
+        yojimbo_assert( m_networkSimulator );
         if ( m_networkSimulator )
         {
             m_networkSimulator->SetPacketLoss( percent );
@@ -200,6 +203,7 @@ namespace yojimbo
 
     void BaseServer::SetDuplicates( float percent )
     {
+        yojimbo_assert( m_networkSimulator );
         if ( m_networkSimulator )
         {
             m_networkSimulator->SetDuplicates( percent );

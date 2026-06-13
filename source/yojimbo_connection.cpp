@@ -125,6 +125,7 @@ namespace yojimbo
                                                            *m_allocator, 
                                                            messageFactory, 
                                                            m_connectionConfig.channel[channelIndex],
+                                                           m_connectionConfig.maxPacketSize,
                                                            channelIndex, 
                                                            time );
                     yojimbo_assert( m_channel[channelIndex] );
@@ -137,7 +138,8 @@ namespace yojimbo
                                                            UnreliableUnorderedChannel, 
                                                            *m_allocator, 
                                                            messageFactory, 
-                                                           m_connectionConfig.channel[channelIndex], 
+                                                           m_connectionConfig.channel[channelIndex],
+                                                           m_connectionConfig.maxPacketSize,
                                                            channelIndex, 
                                                            time ); 
                     yojimbo_assert( m_channel[channelIndex] );
